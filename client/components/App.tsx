@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Button} from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.css'
-import '../css/App.css';
 
 class App extends Component {
+    /*
     testInsert(){
         fetch('/insert', {
             headers:{
@@ -24,13 +24,15 @@ class App extends Component {
         fetch('/collections',{
             method:'GET'
         })
-    }
+    }*/
+
     render() {
+        console.log("fdsa")
         return (
             <div>
                 <h1>Pokemon Rankings</h1>
-                <Button onClick={this.testInsert}>test insert</Button>
-                <Button onClick={this.testShow}>show all collections</Button>
+                <Button>test insert</Button>
+                <Button>show all collections</Button>
             </div>
 
 

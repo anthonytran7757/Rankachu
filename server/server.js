@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 app.use(bodyParser.json())
 
 app.get('/', function (req, res){
+    console.log("asdf")
     res.render('index')
 })
 
