@@ -6,6 +6,5 @@ import {Navigation} from './Navigation'
 
 export const Home = () =>
     <div>
-        <Navigation/>
         <h1>Pokemon Ranking</h1>
     </div>

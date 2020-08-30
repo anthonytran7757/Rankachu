@@ -8,8 +8,14 @@ export const Navigation = () =>
     <Navbar>
         <Navbar.Body>
             <Nav>
-                <Nav.Item><Link to='/'> Home </Link></Nav.Item>
-                <Nav.Item><Link to='/list'> List </Link></Nav.Item>
+                <a>
+                    <Link to='/'>
+                        <Nav.Item> Home </Nav.Item>
+                    </Link>
+                    <Link to='/list'>
+                        <Nav.Item> List </Nav.Item>
+                    </Link>
+                </a>
             </Nav>
         </Navbar.Body>
     </Navbar>

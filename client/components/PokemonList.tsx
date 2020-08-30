@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {BrowserRouter as Router, Switch, Route, Link, useParams} from 'react-router-dom'
-import {List, Button, Loader} from 'rsuite';
+import {List, Button, Loader, Pagination} from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.css'
-import {Navigation} from './Navigation'
 
 import '../css/PokemonList.css'
 
@@ -13,72 +12,78 @@ type PokemonListProps = {
 interface pkmnListData {
     name: string;
     url: string;
-    imgURL?: string
 }
 
 export function PokemonList(props: PokemonListProps) {
-
     const {updateSelectedPkmn} = props;
-
     const [pkmnList, setPkmnList] = React.useState<pkmnListData[]>([])
-
+    const [currPage, setCurrPage] = React.useState<number>(1)
 
     React.useEffect(() => {
-        async function retrievePkmnList() {
-            let tempResp;
-            let tempData;
-            let resp = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=5');
-            resp.json().then(data => {
-                let listOfPokes = data.results;
-                listOfPokes.forEach(async function (poke: any) {
-                    //tempResp = await fetch(poke.url)
-                    //tempData = await tempResp.json()
-                    pkmnList.push(
-                        {
-                            "name": poke.name,
-                            "url": poke.url,
-                            //"imgURL": tempData.sprites.versions['generation-viii'].icons.front_default
-                        })
-                })
-                setPkmnList(pkmnList)
-            });
-        }
-
         retrievePkmnList();
-    }, [pkmnList]
-    )
+    }, [currPage])
 
 
-    const test = (testparam: string) => {
-        updateSelectedPkmn(testparam)
+    async function retrievePkmnList() {
+        let offset = ((currPage -1)* 10).toString();
+        let url = "https://pokeapi.co/api/v2/pokemon/?limit=10&offset=".concat(offset)
+        console.log(url)
+        let resp = await fetch(url);
+        let data = await resp.json()
+        setPkmnList(data.results)
+    }
+
+    const paging = (eventKey:number) =>{
+        setCurrPage(eventKey)
+    }
+
+    const getSpriteURL = (pokeURL: string) => {
+        let dexNum = pokeURL;
+        dexNum = dexNum.replace('https://pokeapi.co/api/v2/pokemon/',"")
+        dexNum = dexNum.substring(0, dexNum.length - 1);
+        let imgURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"
+        imgURL = imgURL.concat(dexNum,".png")
+        return imgURL
+    }
+    const capitalize = (s: string) => {
+        if (typeof s !== 'string') return ''
+        return s.charAt(0).toUpperCase() + s.slice(1)
     }
 
     const renderList = () => {
-        console.log(pkmnList);
         let listToDisplay = pkmnList.map(item => (
-
+            <a onClick={() => selectPkmn(item.url)}>
                 <List.Item>
-                    {item.name}
-                    <Button onClick={() => test(item.url)}>{'>'}</Button>
+                    <img src={getSpriteURL(item.url)}/>
+                    {capitalize(item.name)}
                 </List.Item>
-
+            </a>
         ))
+        return(listToDisplay)
     }
 
-    return (<div>
-        <List bordered hover>
-            {pkmnList.map(item => (
-
-                <List.Item>
-                    {item.name}
-                    <Button onClick={() => test(item.url)}>{'>'}</Button>
-                </List.Item>
-
-            ))}
-        </List>
-    </div>)
-
-
+    const selectPkmn = (selectedPkmn: string) => {
+        updateSelectedPkmn(selectedPkmn)
+    }
+    return (
+        <div id="pokeList">
+            <List size="sm" bordered hover >
+                {renderList()}
+            </List>
+            <Pagination
+                prev
+                last
+                next
+                first
+                size="m"
+                ellipsis
+                pages={90}
+                maxButtons={10}
+                activePage={currPage}
+                onSelect={paging}
+            />
+        </div>
+    )
 }
 
 
