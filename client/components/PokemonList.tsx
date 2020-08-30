@@ -6,7 +6,7 @@ import 'rsuite/dist/styles/rsuite-default.css'
 import '../css/PokemonList.css'
 
 type PokemonListProps = {
-    updateSelectedPkmn: (pokemonId: string) => void
+    updateSelectedPkmn: (pokemonId: number) => void
 }
 
 interface pkmnListData {
@@ -27,7 +27,6 @@ export function PokemonList(props: PokemonListProps) {
     async function retrievePkmnList() {
         let offset = ((currPage -1)* 10).toString();
         let url = "https://pokeapi.co/api/v2/pokemon/?limit=10&offset=".concat(offset)
-        console.log(url)
         let resp = await fetch(url);
         let data = await resp.json()
         setPkmnList(data.results)
@@ -38,9 +37,7 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     const getSpriteURL = (pokeURL: string) => {
-        let dexNum = pokeURL;
-        dexNum = dexNum.replace('https://pokeapi.co/api/v2/pokemon/',"")
-        dexNum = dexNum.substring(0, dexNum.length - 1);
+        let dexNum = getDexNum(pokeURL);
         let imgURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"
         imgURL = imgURL.concat(dexNum,".png")
         return imgURL
@@ -50,9 +47,15 @@ export function PokemonList(props: PokemonListProps) {
         return s.charAt(0).toUpperCase() + s.slice(1)
     }
 
+    const getDexNum = (pokeURL: string) =>{
+        let dexNum = pokeURL.replace('https://pokeapi.co/api/v2/pokemon/',"")
+        dexNum = dexNum.substring(0, dexNum.length - 1);
+        return dexNum
+    }
+
     const renderList = () => {
         let listToDisplay = pkmnList.map(item => (
-            <a onClick={() => selectPkmn(item.url)}>
+            <a onClick={() => selectPkmn(parseInt(getDexNum(item.url)))}>
                 <List.Item>
                     <img src={getSpriteURL(item.url)}/>
                     {capitalize(item.name)}
@@ -62,7 +65,7 @@ export function PokemonList(props: PokemonListProps) {
         return(listToDisplay)
     }
 
-    const selectPkmn = (selectedPkmn: string) => {
+    const selectPkmn = (selectedPkmn: number) => {
         updateSelectedPkmn(selectedPkmn)
     }
     return (

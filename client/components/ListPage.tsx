@@ -4,9 +4,9 @@ import {PokemonList} from './PokemonList'
 import {PokeInfo} from './PokeInfo'
 
 export function ListPage(){
-    const [selectedPkmn, setSelectedPkmn] = React.useState("")
+    const [selectedPkmn, setSelectedPkmn] = React.useState(0)
 
-    const updateSelectedPkmn = (pkmnId: string) => {
+    const updateSelectedPkmn = (pkmnId: number) => {
         setSelectedPkmn(pkmnId)
 
     }
