@@ -15,7 +15,7 @@ export const App = () =>{
                 <Navigation/>
                 <Switch>
                     <Route exact path='/' component={Home}/>
-                    <Route path='/list' render={() => <ListPage/>}/>
+                    <Route exact path='/list' component={ListPage}/>
                 </Switch>
             </div>
         </Router>

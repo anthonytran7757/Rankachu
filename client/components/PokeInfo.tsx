@@ -17,13 +17,14 @@ export const PokeInfo = (props: PokemonIdProp) =>{
     const {retrieveSelectedPkmn} = props;
 
     const vote = async (contest: string) => {
+        let spriteURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"
         const response = await fetch('/vote', {
             method: 'post',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({contest: contest, dexNum: dexNum})
+            body: JSON.stringify({contest: contest, name:name, dexNum: dexNum, imgURL: imgURL, spriteURL: spriteURL+dexNum+".png"})
         })
     }
 
