@@ -121,13 +121,14 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     const selectPkmn = (selectedPkmn: number) => {
+        console.log(selectedPkmn)
         updateSelectedPkmn(selectedPkmn)
     }
 
     const generateTypesDropdown= () =>{
         let listToDisplay = typeList.map(elem => (
             <Dropdown.Item onClick = {() => updateListMode(elem.name)}>
-                {elem.name}
+                {capitalize(elem.name)}
             </Dropdown.Item>
         ))
         listToDisplay.unshift(
