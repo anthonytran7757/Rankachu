@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {BrowserRouter as Router, Switch, Route, Link, useParams, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {Navbar, Nav} from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.css'
 

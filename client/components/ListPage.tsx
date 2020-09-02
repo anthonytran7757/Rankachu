@@ -11,11 +11,6 @@ export function ListPage(){
 
     }
 
-    const retrieveSelectedPkmn = () => {
-        return selectedPkmn
-    }
-
-
     const renderPokeInfo = () =>{
         if(selectedPkmn){
             return(
@@ -30,4 +25,3 @@ export function ListPage(){
             {renderPokeInfo()}
         </div>)
 }
-

@@ -19,7 +19,6 @@ app.use(bodyParser.json())
 
 app.get('/contest', function (req, res) {
     contest.find({}, async function (err, result){
-        console.log(!result.length)
         if (!result.length){
             let overall = await contest.create({
                 name: "overall"
@@ -40,7 +39,6 @@ app.get('/contest', function (req, res) {
             res.send("created")
         }
         else{
-            console.log(result)
             pokeVoteList = result
             pokeVoteList.forEach(poke =>{
                 poke.nominees.sort(function(a,b){return(b.voteCount - a.voteCount)})

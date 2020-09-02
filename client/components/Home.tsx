@@ -1,8 +1,6 @@
 import * as React from 'react';
-import {BrowserRouter as Router, Switch, Route, Link, useParams} from 'react-router-dom'
-import {Button, List, Panel,Grid, Row, Col} from 'rsuite';
+import {List, Panel,Grid, Row, Col} from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.css'
-import {Navigation} from './Navigation'
 import '../css/Home.css'
 
 export const Home = () =>{
@@ -25,8 +23,8 @@ export const Home = () =>{
         if(pokeRankings){
             let index
 
-            if (contest == "overall"){index = 0}
-            else if(contest == "legendary"){index = 1}
+            if (contest === "overall"){index = 0}
+            else if(contest === "legendary"){index = 1}
             else{index = 2}
 
             let overallTopThree = pokeRankings[index].nominees.slice(0,3)
@@ -34,9 +32,9 @@ export const Home = () =>{
                 <Col md={8}>
                     <Panel bordered shaded className="pokeCard">
                         <h3>#{index + 1} {poke.name}
-                            <img src={`../assets/medal${index}.png`}/>
+                            <img alt="vanity" src={`../assets/medal${index}.png`}/>
                         </h3>
-                        <img className="pokeIMG"src={poke.imgURL}/>
+                        <img alt="vanity" className="pokeIMG"src={poke.imgURL}/>
                     </Panel>
                 </Col>
             ))
@@ -48,15 +46,15 @@ export const Home = () =>{
         if(pokeRankings){
             let index
 
-            if (contest == "overall"){index = 0}
-            else if(contest == "legendary"){index = 1}
+            if (contest === "overall"){index = 0}
+            else if(contest === "legendary"){index = 1}
             else{index = 2}
 
             let overallTopThree = pokeRankings[index].nominees.slice(3,10)
             let toDisplay = overallTopThree.map((poke: any, index:number) =>(
                 <List.Item>
                     <p>
-                        #{index + 4} <img src={poke.spriteURL}/> {poke.name}
+                        #{index + 4} <img alt="vanity" src={poke.spriteURL}/> {poke.name}
                     </p>
                 </List.Item>
             ))

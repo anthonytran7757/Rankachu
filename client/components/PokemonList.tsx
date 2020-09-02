@@ -1,10 +1,11 @@
 import * as React from 'react';
-import {BrowserRouter as Router, Switch, Route, Link, useParams} from 'react-router-dom'
-import {List, Button, Loader, Pagination, Dropdown} from 'rsuite';
+import {Dropdown, Icon, Input, InputGroup, List, Pagination, Panel} from 'rsuite';
+import didYouMean, {ReturnTypeEnums} from 'didyoumean2'
 import 'rsuite/dist/styles/rsuite-default.css'
 
+
 import '../css/PokemonList.css'
-import {type} from "os";
+
 
 type PokemonListProps = {
     updateSelectedPkmn: (pokemonId: number) => void
@@ -22,38 +23,48 @@ export function PokemonList(props: PokemonListProps) {
     const [maxPages, setMaxPages] = React.useState<number>(0)
     const [listMode, setListMode] = React.useState<string>("all")
     const [typeList, setTypeList] = React.useState<any[]>([])
-
+    const [pkmnNamesList, setPkmnNamesList] = React.useState<string[]>([])
+    const [searchVal, setSearchVal] = React.useState<string>("")
+    const [searchSuggestions, setSearchSuggestions] = React.useState<string[]>([])
 
     React.useEffect(() => {
-        retrieveAllPkmnList();
-    }, [currPage])
+        if(listMode === "all")
+            retrieveAllPkmnList();
+        else{
+            retrievePkmnByType(listMode)
+        }
+    }, [currPage, listMode, searchVal, searchSuggestions])
 
     React.useEffect(() => {
         getTypes()
-    }, [])
+    }, [typeList])
 
 
     async function retrieveAllPkmnList() {
-        let offset = ((currPage -1)* 10).toString();
-        let url = "https://pokeapi.co/api/v2/pokemon/?limit=10&offset=".concat(offset)
+        let url = "https://pokeapi.co/api/v2/pokemon/?limit=2000"
         let resp = await fetch(url);
         let data = await resp.json()
         setPkmnList(data.results)
         setMaxPages((data.count/10)+1)
+        if(!pkmnNamesList.length){
+            pkmnList.forEach(poke => pkmnNamesList.push(poke.name))
+            setPkmnNamesList(pkmnNamesList)
+        }
+
     }
 
     const retrievePkmnByType = async (type: string) =>{
-        let offset = ((currPage -1)* 10).toString();
-        let url = `https://pokeapi.co/api/v2/type/.concat${type}${offset})`
-        let resp = await fetch(url);
-        let data = await resp.json()
-        setPkmnList(data.results)
+        const url = `https://pokeapi.co/api/v2/type/${type}`
+        const resp = await fetch(url);
+        const data = await resp.json()
+        let retrievedList: any[] = []
+        data.pokemon.forEach((poke: { pokemon: any; }) => retrievedList.push(poke.pokemon))
+        setMaxPages((Math.floor(retrievedList.length/10)) + 1)
     }
 
     async function getTypes(){
         let resp = await fetch("https://pokeapi.co/api/v2/type/")
         let data = await resp.json()
-
         setTypeList(data.results.slice(0, data.results.length-2))
     }
 
@@ -80,7 +91,8 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     const renderList = () => {
-        let listToDisplay = pkmnList.map(item => (
+        let offset = ((currPage -1)* 10);
+        let listToDisplay = pkmnList.slice(offset, offset + 10).map(item => (
             <a onClick={() => selectPkmn(parseInt(getDexNum(item.url)))}>
                 <List.Item>
                     <img src={getSpriteURL(item.url)}/>
@@ -96,12 +108,16 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     const generateTypesDropdown= () =>{
-        console.log(typeList)
         let listToDisplay = typeList.map(elem => (
             <Dropdown.Item onClick = {() => updateListMode(elem.name)}>
                 {elem.name}
             </Dropdown.Item>
         ))
+        listToDisplay.unshift(
+            <Dropdown.Item onClick = {() => updateListMode("all")}>
+                {"All"}
+            </Dropdown.Item>
+        )
         return(listToDisplay)
     }
 
@@ -110,11 +126,38 @@ export function PokemonList(props: PokemonListProps) {
         setListMode(elem)
     }
 
+    const searchPkmn= () =>{
+        console.log(didYouMean(searchVal, pkmnNamesList,{returnType: ReturnTypeEnums.ALL_CLOSEST_MATCHES}))
+        setSearchSuggestions(didYouMean(searchVal, pkmnNamesList,{returnType: ReturnTypeEnums.ALL_CLOSEST_MATCHES}))
+    }
+
+    const renderSuggestions = () =>{
+        if(searchSuggestions.length){
+            let display = searchSuggestions.map(suggestion=>(
+                <a>{` ${suggestion}`}</a>
+            ))
+            return display
+        }
+    }
+
+    const handleSuggestion = (pokeName:string) =>{
+        
+    }
+
     return (
         <div id="pokeList">
             <Dropdown title="Select Type">
                 {generateTypesDropdown()}
             </Dropdown>
+            <InputGroup inside>
+                <Input onChange={value => setSearchVal(value)} placeholder={"Enter Pokemon Name"} />
+                <InputGroup.Button onClick={searchPkmn}>
+                    <Icon icon="search" />
+                </InputGroup.Button>
+            </InputGroup>
+            <Panel>
+                Did you mean: {renderSuggestions()}
+            </Panel>
             <List size="sm" bordered hover >
                 {renderList()}
             </List>

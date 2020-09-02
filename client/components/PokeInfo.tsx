@@ -18,7 +18,7 @@ export const PokeInfo = (props: PokemonIdProp) =>{
 
     const vote = async (contest: string) => {
         let spriteURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"
-        const response = await fetch('/vote', {
+        await fetch('/vote', {
             method: 'post',
             headers: {
                 Accept: 'application/json',
@@ -63,7 +63,7 @@ export const PokeInfo = (props: PokemonIdProp) =>{
         <div id="pokeInfo">
             <Panel className="card" shaded bordered bodyFill>
                 <h2>{name}: #{dexNum}</h2>
-                <img src={imgURL}></img>
+                <img src={imgURL} alt="vanity"/>
                 <Button size="lg" color="green" onClick={() => vote("overall")}>Nominate Overall</Button>
                 {legendNomination()}
                 <p>Type: {elem} </p>
