@@ -11,21 +11,25 @@ type PokemonListProps = {
     updateSelectedPkmn: (pokemonId: number) => void
 }
 
-interface resultsData {
+interface pkmnData {
     name: string;
     url: string;
 }
 
+interface mapdata{
+    [name: string]: pkmnData
+}
+
 export function PokemonList(props: PokemonListProps) {
     const {updateSelectedPkmn} = props;
-    const [pkmnList, setPkmnList] = React.useState<resultsData[]>([])
+    const [pkmnList, setPkmnList] = React.useState<mapdata>({})
     const [currPage, setCurrPage] = React.useState<number>(1)
     const [maxPages, setMaxPages] = React.useState<number>(0)
     const [listMode, setListMode] = React.useState<string>("all")
     const [typeList, setTypeList] = React.useState<any[]>([])
-    const [pkmnNamesList, setPkmnNamesList] = React.useState<string[]>([])
     const [searchVal, setSearchVal] = React.useState<string>("")
     const [searchSuggestions, setSearchSuggestions] = React.useState<string[]>([])
+    const [searched, setSearched] = React.useState<Boolean>(false)
 
     React.useEffect(() => {
         if(listMode === "all")
@@ -33,33 +37,45 @@ export function PokemonList(props: PokemonListProps) {
         else{
             retrievePkmnByType(listMode)
         }
-    }, [currPage, listMode, searchVal, searchSuggestions])
+    }, [currPage, listMode, searchSuggestions])
 
     React.useEffect(() => {
         getTypes()
-    }, [typeList])
+    }, [])
 
+    React.useEffect(() =>{
+        if(!searchVal){
+            setSearched(false)
+            setSearchSuggestions([])
+        }
+    }, [searchVal])
 
     async function retrieveAllPkmnList() {
         let url = "https://pokeapi.co/api/v2/pokemon/?limit=2000"
         let resp = await fetch(url);
         let data = await resp.json()
-        setPkmnList(data.results)
+        //setPkmnList(data.results)
+        let tempMap:any = {}
+        data.results.forEach((poke: pkmnData) =>{
+            tempMap[poke.name] ={name: poke.name, url:poke.url}
+        })
+        setPkmnList(tempMap)
         setMaxPages((data.count/10)+1)
-        if(!pkmnNamesList.length){
-            pkmnList.forEach(poke => pkmnNamesList.push(poke.name))
-            setPkmnNamesList(pkmnNamesList)
-        }
-
     }
 
     const retrievePkmnByType = async (type: string) =>{
         const url = `https://pokeapi.co/api/v2/type/${type}`
         const resp = await fetch(url);
         const data = await resp.json()
-        let retrievedList: any[] = []
-        data.pokemon.forEach((poke: { pokemon: any; }) => retrievedList.push(poke.pokemon))
-        setMaxPages((Math.floor(retrievedList.length/10)) + 1)
+        //let retrievedList: any[] = []
+        //data.pokemon.forEach((poke: { pokemon: any; }) => retrievedList.push(poke.pokemon))
+
+        let tempMap:any = {}
+        data.pokemon.forEach((poke: any) =>{
+            tempMap[poke.pokemon.name] ={name: poke.pokemon.name, url:poke.pokemon.url}
+        })
+        setPkmnList(tempMap)
+        setMaxPages((Math.floor(Object.keys(tempMap).length/10)) + 1)
     }
 
     async function getTypes(){
@@ -92,11 +108,12 @@ export function PokemonList(props: PokemonListProps) {
 
     const renderList = () => {
         let offset = ((currPage -1)* 10);
-        let listToDisplay = pkmnList.slice(offset, offset + 10).map(item => (
-            <a onClick={() => selectPkmn(parseInt(getDexNum(item.url)))}>
+        let listToDisplay = Object.keys(pkmnList).slice(offset, offset + 10).map(name => (
+
+            <a onClick={() => selectPkmn(parseInt(getDexNum(pkmnList[name].url)))}>
                 <List.Item>
-                    <img src={getSpriteURL(item.url)}/>
-                    {capitalize(item.name)}
+                    <img src={getSpriteURL(pkmnList[name].url)}/>
+                    {capitalize(name)}
                 </List.Item>
             </a>
         ))
@@ -127,21 +144,39 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     const searchPkmn= () =>{
-        console.log(didYouMean(searchVal, pkmnNamesList,{returnType: ReturnTypeEnums.ALL_CLOSEST_MATCHES}))
-        setSearchSuggestions(didYouMean(searchVal, pkmnNamesList,{returnType: ReturnTypeEnums.ALL_CLOSEST_MATCHES}))
+        setSearched(true)
+        const pokeNames = Object.keys(pkmnList)
+        if (pokeNames.includes(searchVal)){
+            selectPkmn(parseInt(getDexNum(pkmnList[searchVal].url)))
+        }
+        else{
+            const suggestions = didYouMean(searchVal, pokeNames,{returnType: ReturnTypeEnums.ALL_CLOSEST_MATCHES})
+            setSearchSuggestions(suggestions)
+        }
     }
 
     const renderSuggestions = () =>{
         if(searchSuggestions.length){
             let display = searchSuggestions.map(suggestion=>(
-                <a>{` ${suggestion}`}</a>
+                <a onClick={() => handleSuggestion(suggestion)}>{` ${suggestion}`}</a>
             ))
             return display
+        }
+        else{
+            return("Sorry, no results could be found")
         }
     }
 
     const handleSuggestion = (pokeName:string) =>{
-        
+        selectPkmn(parseInt(getDexNum(pkmnList[pokeName].url)))
+    }
+    let didYouMeanThis:any;
+
+    if(searchSuggestions.length){
+        didYouMeanThis = <div>Did you mean:  {renderSuggestions()}</div>
+    }
+    else if (searched && searchSuggestions.length == 0){
+        didYouMeanThis = <div>{renderSuggestions()}</div>
     }
 
     return (
@@ -150,13 +185,13 @@ export function PokemonList(props: PokemonListProps) {
                 {generateTypesDropdown()}
             </Dropdown>
             <InputGroup inside>
-                <Input onChange={value => setSearchVal(value)} placeholder={"Enter Pokemon Name"} />
-                <InputGroup.Button onClick={searchPkmn}>
+                <Input onChange={value => setSearchVal(value)} onPressEnter={() =>searchPkmn()} placeholder={"Enter Pokemon Name"} />
+                <InputGroup.Button onClick={() => searchPkmn()}>
                     <Icon icon="search" />
                 </InputGroup.Button>
             </InputGroup>
             <Panel>
-                Did you mean: {renderSuggestions()}
+                {didYouMeanThis}
             </Panel>
             <List size="sm" bordered hover >
                 {renderList()}

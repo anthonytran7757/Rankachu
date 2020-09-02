@@ -8,13 +8,12 @@ export function ListPage(){
 
     const updateSelectedPkmn = (pkmnId: number) => {
         setSelectedPkmn(pkmnId)
-
     }
 
     const renderPokeInfo = () =>{
         if(selectedPkmn){
             return(
-                <PokeInfo retrieveSelectedPkmn={selectedPkmn}/>)
+                <PokeInfo retrieveSelectedPkmn={selectedPkmn} updateSelectedPkmn={updateSelectedPkmn}/>)
         }
     }
 
