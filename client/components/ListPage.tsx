@@ -3,11 +3,12 @@ import * as React from 'react';
 import {PokemonList} from './PokemonList'
 import {PokeInfo} from './PokeInfo'
 
+import '../css/ListPage.css'
+
 export function ListPage(){
     const [selectedPkmn, setSelectedPkmn] = React.useState(0)
 
     const updateSelectedPkmn = (pkmnId: number) => {
-        console.log("this is" + pkmnId)
         setSelectedPkmn(pkmnId)
     }
 

@@ -1,13 +1,84 @@
-#pokeInfo{
-    width: 50%;
+.pokeInfo{
+    z-index: 100;
+    width: 600px;
     margin: 10px;
     position:absolute;
     right: 0px;
     top:30px;
 
 }
+
+.artwork{
+    width: 65%;
+    height: 65%;
+}
+
+.xButton{
+    position: absolute;
+    right: 8px;
+}
+.typeIMG{
+    padding: 2px;
+    border-radius: 10px;
+}
+
+.types{
+    display: inline;
+    width: 40%;
+    height: 40%;
+}
+
 .card{
     background: white;
     padding: 10px;
     align-content: center;
 }
+
+.grid{
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+.singleField{
+    display: flex;
+    flex-direction: row;
+    padding-left: 5px;
+    position: relative;
+}
+
+.singleField > .title{
+    order: 1
+}
+.singleField > .content{
+    order:2;
+    font-size: 24px;
+    bottom: 0;
+    padding-left: 5px;
+}
+
+.voteButton{
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+.baseStatRow{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    text-align: center;
+}
+.baseStatRow > .title{
+    order: 1
+}
+.baseStatRow > .content{
+    order: 2;
+    font-size: 18px;
+    bottom: 0;
+    padding-left: 2px;
+    text-align: center;
+}
+
+.statContent{
+    text-align: center;
+}
+

@@ -1,7 +1,12 @@
 #pokeList{
+    z-index: 1;
     position: relative;
     margin: 10px;
 }
 .a{
     color: black;
+}
+
+.p{
+    font-size: 15px;
 }

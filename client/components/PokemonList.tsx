@@ -1,10 +1,12 @@
 import * as React from 'react';
 import {Dropdown, Icon, Input, InputGroup, List, Pagination, Panel} from 'rsuite';
 import didYouMean, {ReturnTypeEnums} from 'didyoumean2'
+
+import { capitalize } from './utils';
+
 import 'rsuite/dist/styles/rsuite-default.css'
-
-
 import '../css/PokemonList.css'
+
 
 
 type PokemonListProps = {
@@ -51,9 +53,9 @@ export function PokemonList(props: PokemonListProps) {
     }, [searchVal])
 
     async function retrieveAllPkmnList() {
-        let url = "https://pokeapi.co/api/v2/pokemon/?limit=2000"
-        let resp = await fetch(url);
-        let data = await resp.json()
+        const url = "https://pokeapi.co/api/v2/pokemon/?limit=2000"
+        const resp = await fetch(url);
+        const data = await resp.json()
         //setPkmnList(data.results)
         let tempMap:any = {}
         data.results.forEach((poke: pkmnData) =>{
@@ -67,8 +69,6 @@ export function PokemonList(props: PokemonListProps) {
         const url = `https://pokeapi.co/api/v2/type/${type}`
         const resp = await fetch(url);
         const data = await resp.json()
-        //let retrievedList: any[] = []
-        //data.pokemon.forEach((poke: { pokemon: any; }) => retrievedList.push(poke.pokemon))
 
         let tempMap:any = {}
         data.pokemon.forEach((poke: any) =>{
@@ -79,8 +79,8 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     async function getTypes(){
-        let resp = await fetch("https://pokeapi.co/api/v2/type/")
-        let data = await resp.json()
+        const resp = await fetch("https://pokeapi.co/api/v2/type/")
+        const data = await resp.json()
         setTypeList(data.results.slice(0, data.results.length-2))
     }
 
@@ -89,16 +89,13 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     const getSpriteURL = (pokeURL: string) => {
-        let dexNum = getDexNum(pokeURL);
+        const dexNum = getDexNum(pokeURL);
         let spriteURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"
         spriteURL = spriteURL.concat(dexNum,".png")
         return spriteURL
     }
 
-    const capitalize = (s: string) => {
-        if (typeof s !== 'string') return ''
-        return s.charAt(0).toUpperCase() + s.slice(1)
-    }
+
 
     const getDexNum = (pokeURL: string) =>{
         let dexNum = pokeURL.replace('https://pokeapi.co/api/v2/pokemon/',"")
@@ -121,7 +118,6 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     const selectPkmn = (selectedPkmn: number) => {
-        console.log(selectedPkmn)
         updateSelectedPkmn(selectedPkmn)
     }
 
@@ -158,14 +154,12 @@ export function PokemonList(props: PokemonListProps) {
 
     const renderSuggestions = () =>{
         if(searchSuggestions.length){
-            let display = searchSuggestions.map(suggestion=>(
+            return searchSuggestions.map(suggestion=>(
                 <a onClick={() => handleSuggestion(suggestion)}>{` ${suggestion}`}</a>
             ))
-            return display
         }
-        else{
-            return("Sorry, no results could be found")
-        }
+
+        return("Sorry, no results could be found")
     }
 
     const handleSuggestion = (pokeName:string) =>{
@@ -176,7 +170,7 @@ export function PokemonList(props: PokemonListProps) {
     if(searchSuggestions.length){
         didYouMeanThis = <div>Did you mean:  {renderSuggestions()}</div>
     }
-    else if (searched && searchSuggestions.length == 0){
+    else if (searched && searchSuggestions.length === 0){
         didYouMeanThis = <div>{renderSuggestions()}</div>
     }
 
