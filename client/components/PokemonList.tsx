@@ -176,7 +176,7 @@ export function PokemonList(props: PokemonListProps) {
 
     return (
         <div id="pokeList">
-            <Dropdown title="Select Type">
+            <Dropdown title={listMode}>
                 {generateTypesDropdown()}
             </Dropdown>
             <InputGroup inside>

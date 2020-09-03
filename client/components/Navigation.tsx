@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom'
 import {Navbar, Nav} from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.css'
 
+import {VoteList} from './VoteList'
+
 export const Navigation = () =>
     <Navbar>
         <Navbar.Body>
@@ -16,6 +18,7 @@ export const Navigation = () =>
                         <Nav.Item> List </Nav.Item>
                     </Link>
                 </a>
+                <VoteList/>
             </Nav>
         </Navbar.Body>
     </Navbar>

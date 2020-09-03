@@ -22,7 +22,8 @@ interface pokeInfoData {
     hiddenAbility: string;
     baseStats: number[]
     baseStatTotal: number
-    EVs: number[]
+    EVs: number[],
+    spriteURL:string
 }
 
 interface specInfoData {
@@ -57,7 +58,8 @@ export const PokeInfo = (props: PokemonInfoProps) => {
                     hiddenAbility: "None",
                     baseStats: [],
                     baseStatTotal: 0,
-                    EVs: []
+                    EVs: [],
+                    spriteURL: sprites.versions["generation-viii"].icons.front_default
                 }
             //set types
             tempPokeData.types.push(capitalize(types[0].type.name))
@@ -88,7 +90,6 @@ export const PokeInfo = (props: PokemonInfoProps) => {
                     tempPokeData.hiddenAbility = capitalize(abil.name)
                 }
             })
-            console.log(tempPokeData)
             setPokeData(tempPokeData)
         }
         async function retrieveSpeciesDetails() {
@@ -117,8 +118,14 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     }, [retrieveSelectedPkmn])
 
     const vote = async (contest: string) => {
-        const spriteURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"
-        await fetch('/vote', {
+        /*
+        let myarr = []
+        let votedPokemon = localStorage.getItem("votedPokemon")
+        if(votedPokemon !== null){
+            myarr = JSON.parse(votedPokemon)
+        }
+        */
+        let resp = await fetch('/vote', {
             method: 'post',
             headers: {
                 Accept: 'application/json',
@@ -127,11 +134,16 @@ export const PokeInfo = (props: PokemonInfoProps) => {
             body: JSON.stringify({
                 contest: contest,
                 name: pokeData?.name,
-                //dexNum: dexNum,
+                dexNum: pokeData?.dexNum,
                 imgURL: pokeData?.officialArt,
-                spriteURL: `${spriteURL}${pokeData?.dexNum}.png`
+                spriteURL: pokeData?.spriteURL
             })
         })
+        /*
+        if(resp.status == 200){
+            myarr.push({name: pokeData?.name, spriteURL: pokeData?.spriteURL})
+            localStorage.setItem("votedPokemon", JSON.stringify(myarr))
+        }*/
     }
 
     const renderVoteButtons = () => {
