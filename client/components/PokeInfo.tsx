@@ -1,7 +1,13 @@
+//This is fine
+
 import * as React from 'react'
 import {Button, Col, Grid, Icon, Panel, Row} from 'rsuite';
 
-import {getOverallLocalStore, getLegendaryLocalStore, getLegendaryLocalStoreKey, getOverallLocalStoreKey, sanitizeString } from './utils';
+import {getOverallLocalStore,
+    getLegendaryLocalStore,
+    getLegendaryLocalStoreKey,
+    getOverallLocalStoreKey,
+    sanitizeString, voteToggle} from './utils';
 
 
 import 'rsuite/dist/styles/rsuite-default.css'
@@ -42,7 +48,16 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     const {updateSelectedPkmn} = props;
     const [pokeData, setPokeData] = React.useState<pokeInfoData>()
     const [specData, setSpectData] = React.useState<specInfoData>()
+    const [hidden, setHide] = React.useState<boolean>(true)
+    const [rerender, setRerender] = React.useState<boolean>(true)
+
+    const [overallVoteToggle, setOverallVoteToggle] = React.useState<boolean>(true)
+    const [legendaryVoteToggle, setLegendaryVoteToggle] = React.useState<boolean>(true)
+
     const STAT_LABELS = ["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"]
+
+    //let hide = false
+
     React.useEffect(() => {
         async function retrievePokeDetails() {
             const resp = await fetch("https://pokeapi.co/api/v2/pokemon/" + retrieveSelectedPkmn)
@@ -92,6 +107,9 @@ export const PokeInfo = (props: PokemonInfoProps) => {
                 }
             })
             setPokeData(tempPokeData)
+            setOverallVoteToggle(voteToggle("overall", tempPokeData.name))
+            setLegendaryVoteToggle(voteToggle("legendary", tempPokeData.name))
+
         }
         async function retrieveSpeciesDetails() {
             const resp = await fetch("https://pokeapi.co/api/v2/pokemon-species/" + retrieveSelectedPkmn)
@@ -116,7 +134,9 @@ export const PokeInfo = (props: PokemonInfoProps) => {
         }
         retrievePokeDetails()
         retrieveSpeciesDetails()
-    }, [retrieveSelectedPkmn])
+        setHide(false)
+
+    }, [retrieveSelectedPkmn,rerender])
 
     const vote = async (contest: string) => {
         let resp = await fetch('/vote', {
@@ -147,6 +167,7 @@ export const PokeInfo = (props: PokemonInfoProps) => {
                 }
                 overallVotes.push(voteData)
                 localStorage.setItem(getOverallLocalStoreKey(), JSON.stringify(overallVotes))
+                setOverallVoteToggle(false)
             }
             else{
                 let legendaryVotes:any = getLegendaryLocalStore()
@@ -158,16 +179,21 @@ export const PokeInfo = (props: PokemonInfoProps) => {
                 }
                 legendaryVotes.push(voteData)
                 localStorage.setItem(getLegendaryLocalStoreKey(), JSON.stringify(legendaryVotes))
+                setLegendaryVoteToggle(false)
             }
+            setRerender(!rerender)
         }
     }
 
     const renderVoteButtons = () => {
-
         return (
             <>
-                <Button className="voteButton" size="lg" color="green" onClick={() => vote("overall")}>Vote
-                    Overall</Button>
+                <Button
+                    className="voteButton"
+                    disabled={!overallVoteToggle}
+                    size="lg" color="green"
+                    onClick={() => vote("overall")}>
+                    Vote Overall</Button>
                 {legendNomination()}
             </>
         )
@@ -175,8 +201,13 @@ export const PokeInfo = (props: PokemonInfoProps) => {
 
     const legendNomination = () => {
         if (specData?.isLegendary || specData?.isMythical) {
-            return <Button className="voteButton" size="lg" color="cyan" onClick={() => vote("legendary")}>Vote
-                Legendary</Button>
+            return <Button
+                className="voteButton"
+                disabled={!legendaryVoteToggle}
+                size="lg"
+                color="cyan"
+                onClick={() => vote("legendary")}>
+                Vote Legendary</Button>
         }
     }
 
@@ -258,12 +289,13 @@ export const PokeInfo = (props: PokemonInfoProps) => {
         }
     }
 
+    //updateSelectedPkmn(0)
 
-    let hide = false
+
     return (
-        <div hidden={hide} className="pokeInfo">
+        <div hidden={hidden} className="pokeInfo">
             <Panel className="card" shaded bordered bodyFill>
-                <Icon size='lg' icon='close-circle' className="xButton" onClick={() => updateSelectedPkmn(0)}/>
+                <Icon size='lg' icon='close-circle' className="xButton" onClick={() => {setHide(true)}}/>
                 <h2>{pokeData?.name}: #{pokeData?.dexNum}</h2>
                 <img className="artwork" src={pokeData?.officialArt} alt="vanity"/>
                 <div className="types">

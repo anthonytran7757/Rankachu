@@ -15,17 +15,17 @@ export function VoteList (){
     },[overallList, legendaryList])
 
     const updateVoteList = () => {
-            let stateLegendary = []
-            let localStoreLegendary = getLegendaryLocalStore()
-            if (localStoreLegendary !== null) {
-                if(localStoreLegendary !== JSON.stringify(legendaryList)){
-                    stateLegendary = JSON.parse(localStoreLegendary)
-                    setLegendaryList(stateLegendary)
-                }
+        let stateLegendary = []
+        let localStoreLegendary = getLegendaryLocalStore()
+        if (localStoreLegendary !== null) {
+            if(localStoreLegendary !== JSON.stringify(legendaryList)){
+                stateLegendary = JSON.parse(localStoreLegendary)
+                setLegendaryList(stateLegendary)
             }
-            let stateOverall = []
-            let localStoreOverall = getOverallLocalStore()
-            if (localStoreOverall !== null) {
+        }
+        let stateOverall = []
+        let localStoreOverall = getOverallLocalStore()
+        if (localStoreOverall !== null) {
             if(localStoreOverall !== JSON.stringify(overallList)){
                 stateOverall = JSON.parse(localStoreOverall)
                 setOverallList(stateOverall)

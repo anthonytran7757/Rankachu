@@ -11,7 +11,6 @@ const jwt = require('jsonwebtoken')
 
 
 let contest = require('../models/Contests')
-let user  = require('../models/Users')
 const dbUrl = 'mongodb://localhost/Rankachu'
 
 mongoose.connect(dbUrl)

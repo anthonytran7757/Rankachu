@@ -1,3 +1,5 @@
+//this is fine
+
 import * as React from 'react';
 import {Dropdown, Icon, Input, InputGroup, List, Pagination, Panel} from 'rsuite';
 import didYouMean, {ReturnTypeEnums} from 'didyoumean2'
@@ -196,11 +198,12 @@ export function PokemonList(props: PokemonListProps) {
                 {renderList()}
             </List>
             <Pagination
+                className="paging"
                 prev
                 last
                 next
                 first
-                size="m"
+                size="lg"
                 ellipsis
                 pages={maxPages}
                 maxButtons={10}

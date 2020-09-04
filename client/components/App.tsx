@@ -20,10 +20,3 @@ export const App = () =>{
         </Router>
     )
 }
-
-
-
-
-
-
-

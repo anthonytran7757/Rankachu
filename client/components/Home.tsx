@@ -1,3 +1,5 @@
+//fine
+
 import * as React from 'react';
 import {List, Panel,Grid, Row, Col} from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.css'
@@ -35,6 +37,7 @@ export const Home = () =>{
                             <img alt="vanity" src={`../assets/medal${index}.png`}/>
                         </h3>
                         <img alt="vanity" className="pokeIMG"src={poke.imgURL}/>
+                        <h5>Votes: {poke.voteCount}</h5>
                     </Panel>
                 </Col>
             ))
@@ -61,34 +64,33 @@ export const Home = () =>{
             return toDisplay
         }
     }
-        return(
-            <div>
-                <h1>Pokemon Ranking</h1>
-                <h2>Top Overall</h2>
-                <Grid>
-                    <Row>
-                        {renderTopThree("overall")}
-                    </Row>
-                </Grid>
-                <Panel header="Honourable Mentions" defaultExpanded collapsible bordered>
-                    <List>
-                        {renderContenders("overall")}
-                    </List>
-                </Panel>
-                <h2>Top Legendary</h2>
-                <Grid>
-                    <Row>
-                        {renderTopThree("legendary")}
-                    </Row>
-                </Grid>
-                <Panel header="Honourable Mentions" defaultExpanded collapsible bordered>
-                    <List>
-                        {renderContenders("legendary")}
-                    </List>
-                </Panel>
+    return(
+        <div>
+            <h1>Pokemon Ranking</h1>
+            <h2>Top Overall</h2>
+            <Grid>
+                <Row>
+                    {renderTopThree("overall")}
+                </Row>
+            </Grid>
+            <Panel header="Honourable Mentions" defaultExpanded collapsible bordered>
+                <List>
+                    {renderContenders("overall")}
+                </List>
+            </Panel>
+            <h2>Top Legendary</h2>
+            <Grid>
+                <Row>
+                    {renderTopThree("legendary")}
+                </Row>
+            </Grid>
+            <Panel header="Honourable Mentions" defaultExpanded collapsible bordered>
+                <List>
+                    {renderContenders("legendary")}
+                </List>
+            </Panel>
 
 
-            </div>
-        )
+        </div>
+    )
 }
-
