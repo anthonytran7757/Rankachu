@@ -1,7 +1,8 @@
 import * as React from 'react'
 import {Button, Col, Grid, Icon, Panel, Row} from 'rsuite';
 
-import { capitalize } from './utils';
+import {getOverallLocalStore, getLegendaryLocalStore, getLegendaryLocalStoreKey, getOverallLocalStoreKey, sanitizeString } from './utils';
+
 
 import 'rsuite/dist/styles/rsuite-default.css'
 import '../css/PokeInfo.css'
@@ -49,7 +50,7 @@ export const PokeInfo = (props: PokemonInfoProps) => {
             const {sprites, types} = data
             let tempPokeData: pokeInfoData =
                 {
-                    name: capitalize(data.name),
+                    name: sanitizeString(data.name),
                     dexNum: data.id,
                     officialArt: sprites.other["official-artwork"].front_default,
                     types: [],
@@ -62,9 +63,9 @@ export const PokeInfo = (props: PokemonInfoProps) => {
                     spriteURL: sprites.versions["generation-viii"].icons.front_default
                 }
             //set types
-            tempPokeData.types.push(capitalize(types[0].type.name))
+            tempPokeData.types.push(sanitizeString(types[0].type.name))
             if (types.length === 2) {
-                tempPokeData.types.push(capitalize(types[1].type.name))
+                tempPokeData.types.push(sanitizeString(types[1].type.name))
             }
 
             let tempBaseStats: number[] = []
@@ -83,11 +84,11 @@ export const PokeInfo = (props: PokemonInfoProps) => {
             data.abilities.forEach((ability: { slot: number; ability: { name: string; }; }) => {
                 const {slot, ability: abil} = ability
                 if (slot === 1) {
-                    tempPokeData.regularAbility = capitalize(abil.name)
+                    tempPokeData.regularAbility = sanitizeString(abil.name)
                 } else if (slot === 2) {
-                    tempPokeData.secondRegAbility = capitalize(abil.name)
+                    tempPokeData.secondRegAbility = sanitizeString(abil.name)
                 } else {
-                    tempPokeData.hiddenAbility = capitalize(abil.name)
+                    tempPokeData.hiddenAbility = sanitizeString(abil.name)
                 }
             })
             setPokeData(tempPokeData)
@@ -99,16 +100,16 @@ export const PokeInfo = (props: PokemonInfoProps) => {
 
             let tempSpecData: specInfoData = {
                 catchRate: data.capture_rate,
-                eggGroupOne: capitalize(data.egg_groups[0].name),
+                eggGroupOne: sanitizeString(data.egg_groups[0].name),
                 eggGroupTwo: "",
                 genIntro: parseInt(data.generation.url.replace("https://pokeapi.co/api/v2/generation/", "").slice(0, -1)),
-                growthRate: capitalize(data.growth_rate.name),
+                growthRate: sanitizeString(data.growth_rate.name),
                 isLegendary: data.is_legendary,
                 isMythical: data.is_mythical
             }
 
             if (egg_groups.length === 2) {
-                tempSpecData.eggGroupTwo = capitalize(data.egg_groups[1].name)
+                tempSpecData.eggGroupTwo = sanitizeString(data.egg_groups[1].name)
             }
 
             setSpectData(tempSpecData)
@@ -118,13 +119,6 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     }, [retrieveSelectedPkmn])
 
     const vote = async (contest: string) => {
-        /*
-        let myarr = []
-        let votedPokemon = localStorage.getItem("votedPokemon")
-        if(votedPokemon !== null){
-            myarr = JSON.parse(votedPokemon)
-        }
-        */
         let resp = await fetch('/vote', {
             method: 'post',
             headers: {
@@ -139,14 +133,37 @@ export const PokeInfo = (props: PokemonInfoProps) => {
                 spriteURL: pokeData?.spriteURL
             })
         })
-        /*
+
         if(resp.status == 200){
-            myarr.push({name: pokeData?.name, spriteURL: pokeData?.spriteURL})
-            localStorage.setItem("votedPokemon", JSON.stringify(myarr))
-        }*/
+            const voteData = {name: pokeData?.name, spriteURL: pokeData?.spriteURL}
+            if(contest === "overall"){
+                ///return function
+                let overallVotes:any = getOverallLocalStore()
+                if(overallVotes === null){
+                    overallVotes = []
+                }
+                else{
+                    overallVotes = JSON.parse(overallVotes)
+                }
+                overallVotes.push(voteData)
+                localStorage.setItem(getOverallLocalStoreKey(), JSON.stringify(overallVotes))
+            }
+            else{
+                let legendaryVotes:any = getLegendaryLocalStore()
+                if(legendaryVotes === null){
+                    legendaryVotes = []
+                }
+                 else{
+                    legendaryVotes = JSON.parse(legendaryVotes)
+                }
+                legendaryVotes.push(voteData)
+                localStorage.setItem(getLegendaryLocalStoreKey(), JSON.stringify(legendaryVotes))
+            }
+        }
     }
 
     const renderVoteButtons = () => {
+
         return (
             <>
                 <Button className="voteButton" size="lg" color="green" onClick={() => vote("overall")}>Vote

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Dropdown, Icon, Input, InputGroup, List, Pagination, Panel} from 'rsuite';
 import didYouMean, {ReturnTypeEnums} from 'didyoumean2'
 
-import { capitalize } from './utils';
+import { sanitizeString } from './utils';
 
 import 'rsuite/dist/styles/rsuite-default.css'
 import '../css/PokemonList.css'
@@ -110,7 +110,7 @@ export function PokemonList(props: PokemonListProps) {
             <a onClick={() => selectPkmn(parseInt(getDexNum(pkmnList[name].url)))}>
                 <List.Item>
                     <img src={getSpriteURL(pkmnList[name].url)}/>
-                    {capitalize(name)}
+                    {sanitizeString(name)}
                 </List.Item>
             </a>
         ))
@@ -124,7 +124,7 @@ export function PokemonList(props: PokemonListProps) {
     const generateTypesDropdown= () =>{
         let listToDisplay = typeList.map(elem => (
             <Dropdown.Item onClick = {() => updateListMode(elem.name)}>
-                {capitalize(elem.name)}
+                {sanitizeString(elem.name)}
             </Dropdown.Item>
         ))
         listToDisplay.unshift(
@@ -167,11 +167,15 @@ export function PokemonList(props: PokemonListProps) {
     }
     let didYouMeanThis:any;
 
-    if(searchSuggestions.length){
+
+    if(Object.keys(pkmnList).includes(searchVal.toLowerCase()) || !searched){
+        didYouMeanThis = ""
+    }
+    else if(searchSuggestions.length){
         didYouMeanThis = <div>Did you mean:  {renderSuggestions()}</div>
     }
-    else if (searched && searchSuggestions.length === 0){
-        didYouMeanThis = <div>{renderSuggestions()}</div>
+    else{
+        didYouMeanThis = <div>Sorry, no results could be found</div>
     }
 
     return (

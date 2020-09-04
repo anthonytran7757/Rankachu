@@ -1,20 +1,25 @@
-var express = require('express');
-var path = require('path');
-var mongoose = require('mongoose')
-var bodyParser = require('body-parser')
-var app = express();
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config()
+}
 
-var dbUrl = 'mongodb://localhost/Rankachu'
+const express = require('express');
+const path = require('path');
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const app = express();
+const jwt = require('jsonwebtoken')
 
-mongoose.connect(dbUrl)
 
 let contest = require('../models/Contests')
+let user  = require('../models/Users')
+const dbUrl = 'mongodb://localhost/Rankachu'
+
+mongoose.connect(dbUrl)
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../client'));
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(bodyParser.json())
-
 
 
 app.get('/contest', function (req, res) {
