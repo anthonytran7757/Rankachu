@@ -10,7 +10,7 @@ export const App = () =>{
     return(
         <Router>
             <div>
-                <img alt="vanity" src="../assets/pikapng.png"/>
+                <img className="banner" alt="vanity" src="../assets/pikapng.png"/>
                 <Navigation/>
                 <Switch>
                     <Route exact path='/' component={Home}/>

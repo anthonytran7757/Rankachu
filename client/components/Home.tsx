@@ -48,7 +48,6 @@ export const Home = () =>{
     const renderContenders = (contest:String) => {
         if(pokeRankings){
             let index
-
             if (contest === "overall"){index = 0}
             else if(contest === "legendary"){index = 1}
             else{index = 2}
@@ -66,26 +65,26 @@ export const Home = () =>{
     }
     return(
         <div>
-            <h1>Pokemon Ranking</h1>
-            <h2>Top Overall</h2>
+            <h1 className="title">Pokemon Ranking</h1>
+            <h2 className="subheader">Top Overall</h2>
             <Grid>
-                <Row>
+                <Row className="row">
                     {renderTopThree("overall")}
                 </Row>
             </Grid>
-            <Panel header="Honourable Mentions" defaultExpanded collapsible bordered>
+            <Panel header="Honourable Mentions" defaultExpanded collapsible bordered className="honourableMentions">
                 <List>
                     {renderContenders("overall")}
                 </List>
             </Panel>
-            <h2>Top Legendary</h2>
+            <h2 className="subheader">Top Legendary</h2>
             <Grid>
-                <Row>
+                <Row className="row">
                     {renderTopThree("legendary")}
                 </Row>
             </Grid>
-            <Panel header="Honourable Mentions" defaultExpanded collapsible bordered>
-                <List>
+            <Panel header="Honourable Mentions" defaultExpanded collapsible bordered className="honourableMentions">
+                <List >
                     {renderContenders("legendary")}
                 </List>
             </Panel>

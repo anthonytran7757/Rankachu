@@ -197,19 +197,21 @@ export function PokemonList(props: PokemonListProps) {
             <List size="sm" bordered hover >
                 {renderList()}
             </List>
-            <Pagination
-                className="paging"
-                prev
-                last
-                next
-                first
-                size="lg"
-                ellipsis
-                pages={maxPages}
-                maxButtons={10}
-                activePage={currPage}
-                onSelect={paging}
-            />
+            <div className="pagingWrapper">
+                <Pagination
+                    className="paging"
+                    prev
+                    last
+                    next
+                    first
+                    size="m"
+                    ellipsis
+                    pages={maxPages}
+                    maxButtons={10}
+                    activePage={currPage}
+                    onSelect={paging}
+                />
+            </div>
         </div>
     )
 }

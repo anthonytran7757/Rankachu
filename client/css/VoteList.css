@@ -1,0 +1,16 @@
+.dropdownitems{
+    width: 200px;
+    align-content: center;
+}
+.dropdownheader{
+    text-align: center;
+    font-weight: bold;
+}
+
+.dropdownImg{
+    display: inline;
+    position: center;
+}
+.dropdownName{
+    display: inline;
+}

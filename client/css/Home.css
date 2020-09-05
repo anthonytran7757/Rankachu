@@ -2,3 +2,17 @@
     height:auto;
     width:100%;
 }
+.title{
+    text-align: center;
+    padding: 2px;
+}
+.subheader{
+    text-align: center;
+    margin: 2px;
+}
+.honourableMentions{
+    margin: 10px;
+}
+.row{
+    padding: 10px;
+}

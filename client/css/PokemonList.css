@@ -10,3 +10,11 @@
 .p{
     font-size: 15px;
 }
+
+.pagingWrapper{
+    position: relative;
+}
+.paging {
+    position: absolute;
+    left: 33%;
+}
