@@ -1,6 +1,5 @@
-if(process.env.NODE_ENV !== 'production'){
-    require('dotenv').config()
-}
+require('dotenv').config({path:'.env'})
+
 
 const express = require('express');
 const path = require('path');
@@ -10,7 +9,7 @@ const app = express();
 
 
 let contest = require('../models/Contests')
-const dbUrl = 'mongodb://localhost/Rankachu'
+const dbUrl = process.env.DB_URL
 
 mongoose.connect(dbUrl)
 
