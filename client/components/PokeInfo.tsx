@@ -209,7 +209,7 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     }
 
     const renderTypeImgs = () => {
-        let typeImgs = pokeData?.types.map(type => (<img className="typeIMG" alt="vanity" src={`../assets/elements/${type}.png`}/>))
+        let typeImgs = pokeData?.types.map(type => (<img className="typeIMG" alt="vanity" src={`../assets/${type}.png`}/>))
         return typeImgs
     }
 
