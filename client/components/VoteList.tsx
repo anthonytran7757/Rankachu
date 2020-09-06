@@ -33,7 +33,6 @@ export function VoteList() {
   };
 
   const renderOverallVotes = () => {
-    //if
     let voteList = overallList?.map(
       (voted: { name: string; spriteURL: string }) => (
         <div className="dropdownitems">
@@ -45,7 +44,6 @@ export function VoteList() {
     return voteList;
   };
   const renderLegendaryVotes = () => {
-    //if
     let voteList = legendaryList?.map(
       (voted: { name: string; spriteURL: string }) => (
         <div className="dropdownitems">

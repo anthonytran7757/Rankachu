@@ -60,8 +60,6 @@ export const PokeInfo = (props: PokemonInfoProps) => {
 
   const STAT_LABELS = ["HP", "ATK", "DEF", "SP.ATK", "SP.DEF", "SPD"];
 
-  //let hide = false
-
   React.useEffect(() => {
     async function retrievePokeDetails() {
       const resp = await fetch(`${POKE_URL}${retrieveSelectedPkmn}`);
@@ -80,7 +78,6 @@ export const PokeInfo = (props: PokemonInfoProps) => {
         EVs: [],
         spriteURL: sprites.versions["generation-viii"].icons.front_default,
       };
-      //set types
       tempPokeData.types.push(sanitizeString(types[0].type.name));
       if (types.length === 2) {
         tempPokeData.types.push(sanitizeString(types[1].type.name));
@@ -97,7 +94,6 @@ export const PokeInfo = (props: PokemonInfoProps) => {
       tempPokeData.baseStats = tempBaseStats;
       tempPokeData.EVs = tempEVs;
 
-      //set abilities
       data.abilities.forEach(
         (ability: { slot: number; ability: { name: string } }) => {
           const { slot, ability: abil } = ability;
@@ -161,7 +157,6 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     if (resp.status == 200) {
       const voteData = { name: pokeData?.name, spriteURL: pokeData?.spriteURL };
       if (contest === "overall") {
-        ///return function
         let overallVotes: any = getOverallLocalStore();
         if (overallVotes === null) {
           overallVotes = [];
@@ -330,8 +325,6 @@ export const PokeInfo = (props: PokemonInfoProps) => {
       );
     }
   };
-
-  //updateSelectedPkmn(0)
 
   return (
     <div hidden={hidden} className="pokeInfo">
