@@ -7,7 +7,10 @@ module.exports = {
         filename: 'bundle.js'
     },
     resolve: {
-        // changed from extensions: [".js", ".jsx"]
+        alias: {
+            "pokemonRanking-components": path.resolve(__dirname, "client/components"),
+            "pokemonRanking-css": path.resolve(__dirname, "client/css")
+        },
         extensions: [".ts", ".tsx", ".js", ".jsx", ".css"]
 
     },

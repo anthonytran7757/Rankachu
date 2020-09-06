@@ -9,10 +9,10 @@ import {
   sanitizeString,
   voteToggle,
 } from "./utils";
-import { GEN_URL, POKE_URL, POKE_SPEC_URL } from "./Constants";
+import { GEN_URL, POKE_URL, POKE_SPEC_URL } from "pokemonRanking-components/Constants";
 
 import "rsuite/dist/styles/rsuite-default.css";
-import "../css/PokeInfo.css";
+import "pokemonRanking-css/PokeInfo.css";
 
 type PokemonInfoProps = {
   retrieveSelectedPkmn: number;

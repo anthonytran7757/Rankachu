@@ -1,7 +1,7 @@
 import * as React from "react";
 import { List, Panel, Grid, Row, Col } from "rsuite";
 import "rsuite/dist/styles/rsuite-default.css";
-import "../css/Home.css";
+import "pokemonRanking-css/Home.css";
 
 export const Home = () => {
   const [pokeRankings, setPokeRankings] = React.useState<any>();

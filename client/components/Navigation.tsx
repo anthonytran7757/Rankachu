@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Navbar, Nav } from "rsuite";
 import "rsuite/dist/styles/rsuite-default.css";
 
-import { VoteList } from "./VoteList";
+import { VoteList } from "pokemonRanking-components/VoteList";
 
 export const Navigation = () => (
   <Navbar>

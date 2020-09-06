@@ -2,8 +2,8 @@ import * as React from "react";
 import { Dropdown } from "rsuite";
 import "rsuite/dist/styles/rsuite-default.css";
 
-import { getOverallLocalStore, getLegendaryLocalStore } from "./utils";
-import "../css/VoteList.css";
+import { getOverallLocalStore, getLegendaryLocalStore } from "pokemonRanking-components/utils";
+import "pokemonRanking-css/VoteList.css";
 
 export function VoteList() {
   const [overallList, setOverallList] = React.useState<[]>([]);

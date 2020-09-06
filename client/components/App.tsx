@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Navigation } from "./Navigation";
+import { Navigation } from "pokemonRanking-components/Navigation";
 
-import { ListPage } from "./ListPage";
-import { Home } from "./Home";
+import { ListPage } from "pokemonRanking-components/ListPage";
+import { Home } from "pokemonRanking-components/Home";
 
 export const App = () => {
   return (

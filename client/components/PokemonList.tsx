@@ -10,7 +10,7 @@ import {
 } from "rsuite";
 import didYouMean, { ReturnTypeEnums } from "didyoumean2";
 
-import { sanitizeString } from "./utils";
+import { sanitizeString } from "pokemonRanking-components/utils";
 import {
   POKE_URL,
   TYPE_URL,
@@ -19,7 +19,7 @@ import {
 } from "./Constants";
 
 import "rsuite/dist/styles/rsuite-default.css";
-import "../css/PokemonList.css";
+import "pokemonRanking-css/PokemonList.css";
 
 type PokemonListProps = {
   updateSelectedPkmn: (pokemonId: number) => void;

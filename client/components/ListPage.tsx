@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { PokemonList } from "./PokemonList";
-import { PokeInfo } from "./PokeInfo";
+import { PokemonList } from "pokemonRanking-components/PokemonList";
+import { PokeInfo } from "pokemonRanking-components/PokeInfo";
 
-import "../css/ListPage.css";
+import "pokemonRanking-css/ListPage.css";
 
 export function ListPage() {
   const [selectedPkmn, setSelectedPkmn] = React.useState(0);
