@@ -6,11 +6,10 @@ import {getOverallLocalStore,
     getLegendaryLocalStoreKey,
     getOverallLocalStoreKey,
     sanitizeString, voteToggle} from './utils';
-
+import {GEN_URL, POKE_URL, POKE_SPEC_URL} from './Constants'
 
 import 'rsuite/dist/styles/rsuite-default.css'
 import '../css/PokeInfo.css'
-
 
 type PokemonInfoProps = {
     retrieveSelectedPkmn: number
@@ -58,7 +57,7 @@ export const PokeInfo = (props: PokemonInfoProps) => {
 
     React.useEffect(() => {
         async function retrievePokeDetails() {
-            const resp = await fetch("https://pokeapi.co/api/v2/pokemon/" + retrieveSelectedPkmn)
+            const resp = await fetch(`${POKE_URL}${retrieveSelectedPkmn}`)
             const data = await resp.json()
             const {sprites, types} = data
             let tempPokeData: pokeInfoData =
@@ -110,7 +109,7 @@ export const PokeInfo = (props: PokemonInfoProps) => {
 
         }
         async function retrieveSpeciesDetails() {
-            const resp = await fetch("https://pokeapi.co/api/v2/pokemon-species/" + retrieveSelectedPkmn)
+            const resp = await fetch(`${POKE_SPEC_URL}${retrieveSelectedPkmn}`)
             const data = await resp.json()
             const {egg_groups} = data;
 
@@ -118,7 +117,7 @@ export const PokeInfo = (props: PokemonInfoProps) => {
                 catchRate: data.capture_rate,
                 eggGroupOne: sanitizeString(data.egg_groups[0].name),
                 eggGroupTwo: "",
-                genIntro: parseInt(data.generation.url.replace("https://pokeapi.co/api/v2/generation/", "").slice(0, -1)),
+                genIntro: parseInt(data.generation.url.replace(GEN_URL, "").slice(0, -1)),
                 growthRate: sanitizeString(data.growth_rate.name),
                 isLegendary: data.is_legendary,
                 isMythical: data.is_mythical

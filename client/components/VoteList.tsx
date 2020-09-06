@@ -5,7 +5,6 @@ import 'rsuite/dist/styles/rsuite-default.css'
 import {useEffect} from "react";
 import {getOverallLocalStore, getLegendaryLocalStore} from './utils';
 import '../css/VoteList.css'
-import DropdownMenu from "rsuite/es/Dropdown/DropdownMenu";
 
 export function VoteList() {
     const [overallList, setOverallList] = React.useState<[]>([])
@@ -38,29 +37,30 @@ export function VoteList() {
     const renderOverallVotes = () => {
         //if
         let voteList = overallList?.map((voted: { name: string, spriteURL: string }) => (
-            <Dropdown.Item className="dropdownitems">
+            <div className="dropdownitems">
                 <img src={voted.spriteURL}/>
                 <p className="dropdownName">{voted.name}</p>
-            </Dropdown.Item>
+            </div>
         ))
         return voteList
     }
     const renderLegendaryVotes = () => {
         //if
         let voteList = legendaryList?.map((voted: { name: string, spriteURL: string }) => (
-            <Dropdown.Item className="dropdownitems">
+            <div className="dropdownitems">
                 <img src={voted.spriteURL} className="dropdownImg"/>
                 <p className="dropdownName">{voted.name}</p>
-            </Dropdown.Item>
+            </div>
         ))
         return voteList
     }
 
     return (
         <Dropdown onClick={updateVoteList} title="Voted" className="dropdown">
-            <Dropdown.Item className="dropdownheader">Overall Votes</Dropdown.Item>
+            <div className="dropdownheader">Overall Votes</div>
             {renderOverallVotes()}
-            <Dropdown.Item className="dropdownheader">Legendary Votes</Dropdown.Item>
+            <hr/>
+            <div className="dropdownheader">Legendary Votes</div>
             {renderLegendaryVotes()}
         </Dropdown>
     )

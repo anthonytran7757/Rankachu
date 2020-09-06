@@ -1,5 +1,5 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 module.exports = {
     entry: './client/index.tsx',
     output: {
@@ -22,4 +22,4 @@ module.exports = {
                 loader: "style-loader!css-loader"
             }]
     }
-}
+};

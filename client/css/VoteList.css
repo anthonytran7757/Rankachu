@@ -3,8 +3,9 @@
     align-content: center;
 }
 .dropdownheader{
-    text-align: center;
     font-weight: bold;
+    padding-left: 5px;
+    font-size: 15px;
 }
 
 .dropdownImg{

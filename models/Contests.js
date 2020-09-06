@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const contestSchema = new mongoose.Schema({
     name: String,
@@ -9,8 +9,6 @@ const contestSchema = new mongoose.Schema({
         spriteURL: String,
         voteCount: Number
     }]
-})
-
+});
 const contestModel = mongoose.model('Contest', contestSchema);
-
-let Contest = module.exports = mongoose.model('Contest', contestSchema)
+let Contest = module.exports = mongoose.model('Contest', contestSchema);

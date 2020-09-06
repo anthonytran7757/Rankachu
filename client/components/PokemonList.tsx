@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {Dropdown, Icon, Input, InputGroup, List, Pagination, Panel} from 'rsuite';
-import didYouMean, {ReturnTypeEnums} from 'didyoumean2'
+import {Col, Dropdown, Grid, Icon, Input, InputGroup, List, Pagination, Panel, Row} from 'rsuite';
+import didYouMean, {ReturnTypeEnums} from 'didyoumean2';
 
 import { sanitizeString } from './utils';
+import {POKE_URL, TYPE_URL,POKEBALL_SPRITE_URL, POKE_SPRITE_URL} from './Constants';
 
 import 'rsuite/dist/styles/rsuite-default.css'
 import '../css/PokemonList.css'
@@ -51,10 +52,9 @@ export function PokemonList(props: PokemonListProps) {
     }, [searchVal])
 
     async function retrieveAllPkmnList() {
-        const url = "https://pokeapi.co/api/v2/pokemon/?limit=2000"
+        const url = `${POKE_URL}?limit=2000`
         const resp = await fetch(url);
         const data = await resp.json()
-        //setPkmnList(data.results)
         let tempMap:any = {}
         data.results.forEach((poke: pkmnData) =>{
             tempMap[poke.name] ={name: poke.name, url:poke.url}
@@ -64,7 +64,7 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     const retrievePkmnByType = async (type: string) =>{
-        const url = `https://pokeapi.co/api/v2/type/${type}`
+        const url = `${TYPE_URL}${type}`
         const resp = await fetch(url);
         const data = await resp.json()
 
@@ -77,7 +77,7 @@ export function PokemonList(props: PokemonListProps) {
     }
 
     async function getTypes(){
-        const resp = await fetch("https://pokeapi.co/api/v2/type/")
+        const resp = await fetch(TYPE_URL)
         const data = await resp.json()
         setTypeList(data.results.slice(0, data.results.length-2))
     }
@@ -88,15 +88,11 @@ export function PokemonList(props: PokemonListProps) {
 
     const getSpriteURL = (pokeURL: string) => {
         const dexNum = getDexNum(pokeURL);
-        let spriteURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"
-        spriteURL = spriteURL.concat(dexNum,".png")
-        return spriteURL
+        return `${POKE_SPRITE_URL}${dexNum}.png`
     }
 
-
-
     const getDexNum = (pokeURL: string) =>{
-        let dexNum = pokeURL.replace('https://pokeapi.co/api/v2/pokemon/',"")
+        let dexNum = pokeURL.replace(POKE_URL,"")
         dexNum = dexNum.substring(0, dexNum.length - 1);
         return dexNum
     }
@@ -107,7 +103,7 @@ export function PokemonList(props: PokemonListProps) {
 
             <a onClick={() => selectPkmn(parseInt(getDexNum(pkmnList[name].url)))}>
                 <List.Item>
-                    <img src={getSpriteURL(pkmnList[name].url)}/>
+                    <img src={getSpriteURL(pkmnList[name].url)} alt={"vanity"}/>
                     {sanitizeString(name)}
                 </List.Item>
             </a>
@@ -178,9 +174,15 @@ export function PokemonList(props: PokemonListProps) {
 
     return (
         <div id="pokeList">
-            <Dropdown title={listMode}>
-                {generateTypesDropdown()}
-            </Dropdown>
+            <div className="typeDropdown">
+
+                        <p className="header">Filter By Type: </p>
+
+                        <Dropdown title={sanitizeString(listMode)} className="content">
+                            {generateTypesDropdown()}
+                        </Dropdown>
+
+            </div>
             <InputGroup inside>
                 <Input onChange={value => setSearchVal(value)} onPressEnter={() =>searchPkmn()} placeholder={"Enter Pokemon Name"} />
                 <InputGroup.Button onClick={() => searchPkmn()}>
@@ -200,7 +202,7 @@ export function PokemonList(props: PokemonListProps) {
                     last
                     next
                     first
-                    size="m"
+                    size="lg"
                     ellipsis
                     pages={maxPages}
                     maxButtons={10}

@@ -18,3 +18,16 @@
     position: absolute;
     left: 33%;
 }
+
+.typeDropdown{
+    display: flex;
+    flex-direction: row;
+}
+
+.typeDropdown > .header{
+    order: 1;
+    margin-top: 6px;
+}
+.typeDropdown > .content{
+    order: 2
+}
