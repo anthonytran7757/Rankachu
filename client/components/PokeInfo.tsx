@@ -1,5 +1,3 @@
-//This is fine
-
 import * as React from 'react'
 import {Button, Col, Grid, Icon, Panel, Row} from 'rsuite';
 
@@ -12,7 +10,6 @@ import {getOverallLocalStore,
 
 import 'rsuite/dist/styles/rsuite-default.css'
 import '../css/PokeInfo.css'
-
 
 type PokemonInfoProps = {
     retrieveSelectedPkmn: number

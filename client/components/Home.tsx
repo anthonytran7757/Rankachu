@@ -1,5 +1,3 @@
-//fine
-
 import * as React from 'react';
 import {List, Panel,Grid, Row, Col} from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.css'

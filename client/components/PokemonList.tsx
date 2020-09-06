@@ -1,5 +1,3 @@
-//this is fine
-
 import * as React from 'react';
 import {Dropdown, Icon, Input, InputGroup, List, Pagination, Panel} from 'rsuite';
 import didYouMean, {ReturnTypeEnums} from 'didyoumean2'
@@ -8,8 +6,6 @@ import { sanitizeString } from './utils';
 
 import 'rsuite/dist/styles/rsuite-default.css'
 import '../css/PokemonList.css'
-
-
 
 type PokemonListProps = {
     updateSelectedPkmn: (pokemonId: number) => void
