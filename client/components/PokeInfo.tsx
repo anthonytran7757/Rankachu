@@ -11,6 +11,7 @@ import {getOverallLocalStore,
 import 'rsuite/dist/styles/rsuite-default.css'
 import '../css/PokeInfo.css'
 
+
 type PokemonInfoProps = {
     retrieveSelectedPkmn: number
     updateSelectedPkmn: (pokemonId: number) => void
@@ -209,7 +210,7 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     }
 
     const renderTypeImgs = () => {
-        let typeImgs = pokeData?.types.map(type => (<img className="typeIMG" alt="vanity" src={`../assets/${type}.png`}/>))
+        let typeImgs = pokeData?.types.map(type => (<img className="typeIMG" alt="vanity" src={`../assets/elements/${type.toLowerCase()}.png`}/>))
         return typeImgs
     }
 
