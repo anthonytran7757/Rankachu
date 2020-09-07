@@ -14,9 +14,8 @@ import { sanitizeString } from "pokemonRanking-components/utils";
 import {
   POKE_URL,
   TYPE_URL,
-  POKEBALL_SPRITE_URL,
   POKE_SPRITE_URL,
-} from "./Constants";
+} from "pokemonRanking-components/Constants";
 
 import "rsuite/dist/styles/rsuite-default.css";
 import "pokemonRanking-css/PokemonList.css";
@@ -42,7 +41,9 @@ export function PokemonList(props: PokemonListProps) {
   const [listMode, setListMode] = React.useState<string>("all");
   const [typeList, setTypeList] = React.useState<any[]>([]);
   const [searchVal, setSearchVal] = React.useState<string>("");
-  const [searchSuggestions, setSearchSuggestions] = React.useState<string[]>([]);
+  const [searchSuggestions, setSearchSuggestions] = React.useState<string[]>(
+    []
+  );
   const [searched, setSearched] = React.useState<Boolean>(false);
 
   React.useEffect(() => {
@@ -186,9 +187,7 @@ export function PokemonList(props: PokemonListProps) {
     didYouMeanThis = <div>Sorry, no results could be found</div>;
   }
 
-  const votesLeft = () => {
-
-  }
+  const votesLeft = () => {};
 
   return (
     <div id="pokeList">

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Alert, Button, Col, Grid, Icon, Panel, Row } from "rsuite";
+import { Alert, Button, Col, Grid, Icon, Panel, Row } from "rsuite";
 
 import {
   getLegendaryLocalStore,
@@ -11,7 +11,11 @@ import {
   sanitizeString,
   voteToggle,
 } from "./utils";
-import { GEN_URL, POKE_URL, POKE_SPEC_URL } from "pokemonRanking-components/Constants";
+import {
+  GEN_URL,
+  POKE_URL,
+  POKE_SPEC_URL,
+} from "pokemonRanking-components/Constants";
 
 import "rsuite/dist/styles/rsuite-default.css";
 import "pokemonRanking-css/PokeInfo.css";
@@ -157,13 +161,21 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     });
 
     if (resp.status == 200) {
-      const votesLeft = remainingVotes(contest)
-      if (votesLeft > 0){
-        Alert.info(`${sanitizeString(contest)} vote submitted! ${votesLeft} votes remaining for ${contest} contest`,
-            10000)
-      }
-      else{
-        Alert.info(`${sanitizeString(contest)} vote submitted! No votes left for ${contest} contest`, 10000)
+      const votesLeft = remainingVotes(contest);
+      if (votesLeft > 0) {
+        Alert.info(
+          `${sanitizeString(
+            contest
+          )} vote submitted! ${votesLeft} votes remaining for ${contest} contest`,
+          10000
+        );
+      } else {
+        Alert.info(
+          `${sanitizeString(
+            contest
+          )} vote submitted! No votes left for ${contest} contest`,
+          10000
+        );
       }
       const voteData = { name: pokeData?.name, spriteURL: pokeData?.spriteURL };
       if (contest === "overall") {
@@ -198,13 +210,12 @@ export const PokeInfo = (props: PokemonInfoProps) => {
   };
 
   const remainingVotes = (contest: string) => {
-    if (contest === "overall"){
-      return (2 - (getOverallVoteCount()))
+    if (contest === "overall") {
+      return 2 - getOverallVoteCount();
+    } else {
+      return 2 - getLegendaryVoteCount();
     }
-    else{
-      return (2 - (getLegendaryVoteCount()))
-    }
-  }
+  };
 
   const renderVoteButtons = () => {
     return (
