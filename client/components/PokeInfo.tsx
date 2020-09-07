@@ -157,9 +157,14 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     });
 
     if (resp.status == 200) {
-      Alert.info(`${
-        sanitizeString(contest)} vote submitted! ${remainingVotes(contest)} votes remaining for ${contest} ranking`,
-          10000)
+      const votesLeft = remainingVotes(contest)
+      if (votesLeft > 0){
+        Alert.info(`${sanitizeString(contest)} vote submitted! ${votesLeft} votes remaining for ${contest} contest`,
+            10000)
+      }
+      else{
+        Alert.info(`${sanitizeString(contest)} vote submitted! No votes left for ${contest} contest`, 10000)
+      }
       const voteData = { name: pokeData?.name, spriteURL: pokeData?.spriteURL };
       if (contest === "overall") {
         let overallVotes: any = getOverallLocalStore();
@@ -194,10 +199,10 @@ export const PokeInfo = (props: PokemonInfoProps) => {
 
   const remainingVotes = (contest: string) => {
     if (contest === "overall"){
-      return (3 - (getOverallVoteCount()))
+      return (2 - (getOverallVoteCount()))
     }
     else{
-      return (3- (getLegendaryVoteCount()))
+      return (2 - (getLegendaryVoteCount()))
     }
   }
 
