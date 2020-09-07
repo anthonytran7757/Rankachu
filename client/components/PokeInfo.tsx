@@ -1,11 +1,13 @@
 import * as React from "react";
-import { Button, Col, Grid, Icon, Panel, Row } from "rsuite";
+import {Alert, Button, Col, Grid, Icon, Panel, Row } from "rsuite";
 
 import {
-  getOverallLocalStore,
   getLegendaryLocalStore,
   getLegendaryLocalStoreKey,
+  getLegendaryVoteCount,
+  getOverallLocalStore,
   getOverallLocalStoreKey,
+  getOverallVoteCount,
   sanitizeString,
   voteToggle,
 } from "./utils";
@@ -155,6 +157,9 @@ export const PokeInfo = (props: PokemonInfoProps) => {
     });
 
     if (resp.status == 200) {
+      Alert.info(`${
+        sanitizeString(contest)} vote submitted! ${remainingVotes(contest)} votes remaining for ${contest} ranking`,
+          10000)
       const voteData = { name: pokeData?.name, spriteURL: pokeData?.spriteURL };
       if (contest === "overall") {
         let overallVotes: any = getOverallLocalStore();
@@ -186,6 +191,15 @@ export const PokeInfo = (props: PokemonInfoProps) => {
       setRerender(!rerender);
     }
   };
+
+  const remainingVotes = (contest: string) => {
+    if (contest === "overall"){
+      return (3 - (getOverallVoteCount()))
+    }
+    else{
+      return (3- (getLegendaryVoteCount()))
+    }
+  }
 
   const renderVoteButtons = () => {
     return (

@@ -42,9 +42,7 @@ export function PokemonList(props: PokemonListProps) {
   const [listMode, setListMode] = React.useState<string>("all");
   const [typeList, setTypeList] = React.useState<any[]>([]);
   const [searchVal, setSearchVal] = React.useState<string>("");
-  const [searchSuggestions, setSearchSuggestions] = React.useState<string[]>(
-    []
-  );
+  const [searchSuggestions, setSearchSuggestions] = React.useState<string[]>([]);
   const [searched, setSearched] = React.useState<Boolean>(false);
 
   React.useEffect(() => {
@@ -188,11 +186,14 @@ export function PokemonList(props: PokemonListProps) {
     didYouMeanThis = <div>Sorry, no results could be found</div>;
   }
 
+  const votesLeft = () => {
+
+  }
+
   return (
     <div id="pokeList">
       <div className="typeDropdown">
         <p className="header">Filter By Type: </p>
-
         <Dropdown title={sanitizeString(listMode)} className="content">
           {generateTypesDropdown()}
         </Dropdown>
