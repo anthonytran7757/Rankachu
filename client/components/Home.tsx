@@ -19,18 +19,18 @@ export const Home = () => {
     retrieveRankings();
   }, []);
 
-  const renderTopThree = (contest: String) => {
-    if (pokeRankings) {
-      let index;
-
-      if (contest === "overall") {
-        index = 0;
-      } else if (contest === "legendary") {
-        index = 1;
-      } else {
-        index = 2;
+  const findContestIndex = (contest: string) => {
+      for (let i = 0; i < pokeRankings.length; i++){
+          if(pokeRankings[i].name === contest){
+              return i
+          }
       }
+      return 0
+  }
 
+  const renderTopThree = (contest: string) => {
+    if (pokeRankings) {
+      let index = findContestIndex(contest);
       let overallTopThree = pokeRankings[index].nominees.slice(0, 3);
       let toDisplay = overallTopThree.map((poke: any, index: number) => (
         <Col md={8}>
@@ -48,17 +48,9 @@ export const Home = () => {
     }
   };
 
-  const renderContenders = (contest: String) => {
+  const renderContenders = (contest: string) => {
     if (pokeRankings) {
-      let index;
-      if (contest === "overall") {
-        index = 0;
-      } else if (contest === "legendary") {
-        index = 1;
-      } else {
-        index = 2;
-      }
-
+        let index = findContestIndex(contest);
       let overallTopThree = pokeRankings[index].nominees.slice(3, 10);
       let toDisplay = overallTopThree.map((poke: any, index: number) => (
         <List.Item>
