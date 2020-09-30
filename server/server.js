@@ -68,7 +68,7 @@ app.post("/vote", function (req, res) {
     await selectedContest.save();
   });
   res.status(200);
-  res.send("vote submitted");
+  res.send("voted");
 });
 
 app.get("/*", function (req, res) {
