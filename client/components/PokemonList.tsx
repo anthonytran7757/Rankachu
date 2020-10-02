@@ -104,10 +104,7 @@ export function PokemonList(props: PokemonListProps) {
   const getSpriteURL = (pokeURL: string) => {
     const dexNum = getDexNum(pokeURL);
     let imgURL = `${POKE_SPRITE_URL}${dexNum}.png`;
-    var http = new XMLHttpRequest();
-    http.open('HEAD', imgURL, false);
-    http.send();
-    if (http.status === 404){
+    if (parseInt(dexNum) > 10090){
       imgURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png";
     }
     return imgURL;
