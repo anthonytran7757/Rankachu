@@ -70,7 +70,7 @@ export const PokeInfo = (props: PokemonInfoProps) => {
       let tempPokeData: pokeInfoData = {
         name: sanitizeString(data.name),
         dexNum: data.id,
-        officialArt: sprites.other["official-artwork"].front_default,
+        officialArt: "",
         types: [],
         regularAbility: "",
         secondRegAbility: "",
@@ -83,6 +83,13 @@ export const PokeInfo = (props: PokemonInfoProps) => {
       tempPokeData.types.push(sanitizeString(types[0].type.name));
       if (types.length === 2) {
         tempPokeData.types.push(sanitizeString(types[1].type.name));
+      }
+      let imgURL: string = sprites.other["official-artwork"].front_default;
+      if(imgURL){
+        tempPokeData.officialArt = imgURL;
+      }
+      else{
+        tempPokeData.officialArt = `../assets/questionMark.png`
       }
 
       let tempBaseStats: number[] = [];
