@@ -73,7 +73,7 @@ export function PokemonList(props: PokemonListProps) {
       tempMap[poke.name] = { name: poke.name, url: poke.url };
     });
     setPkmnList(tempMap);
-    setMaxPages(data.count / 10 + 1);
+    setMaxPages(Math.floor(data.count / 10 + 1));
   }
 
   const retrievePkmnByType = async (type: string) => {
