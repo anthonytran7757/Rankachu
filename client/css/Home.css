@@ -5,6 +5,7 @@
 .title{
     text-align: center;
     padding: 2px;
+    text-decoration: none !important;
 }
 .subheader{
     text-align: center;
@@ -15,4 +16,7 @@
 }
 .row{
     padding: 10px;
+}
+.text-decoration-none {
+     text-decoration: none !important;
 }

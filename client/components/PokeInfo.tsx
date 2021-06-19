@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Alert, Button, Col, Grid, Icon, Panel, Row } from "rsuite";
+import { Alert, Button, Col, Grid, Icon, Panel, Row, Modal } from "rsuite";
 
 import {
   getLegendaryLocalStore,
@@ -357,8 +357,8 @@ export const PokeInfo = (props: PokemonInfoProps) => {
   };
 
   return (
-    <div hidden={hidden} className="pokeInfo">
-      <Panel className="card" shaded bordered bodyFill>
+
+      <Modal show={!hidden} shaded bordered bodyFill>
         <Icon
           size="lg"
           icon="close-circle"
@@ -390,7 +390,6 @@ export const PokeInfo = (props: PokemonInfoProps) => {
         {renderStats()}
         {renderEVs()}
         {renderVoteButtons()}
-      </Panel>
-    </div>
+      </Modal>
   );
 };
