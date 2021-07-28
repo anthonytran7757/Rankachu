@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Alert, Button, Col, Grid, Icon, Panel, Row, Modal } from "rsuite";
+import { Alert, Button, Col, Grid, Icon, Row, Modal } from "rsuite";
 
 import {
   getLegendaryLocalStore,
@@ -51,7 +51,6 @@ interface specInfoData {
 
 export const PokeInfo = (props: PokemonInfoProps) => {
   const { retrieveSelectedPkmn } = props;
-  const { updateSelectedPkmn } = props;
   const [pokeData, setPokeData] = React.useState<pokeInfoData>();
   const [specData, setSpectData] = React.useState<specInfoData>();
   const [hidden, setHide] = React.useState<boolean>(true);

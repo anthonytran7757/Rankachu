@@ -1,6 +1,6 @@
 import * as React from "react";
 import { PokeInfo } from "pokemonRanking-components/PokeInfo";
-import { List, Panel, Grid, Row, Col, Button } from "rsuite";
+import { List, Panel, Grid, Row, Col } from "rsuite";
 import "rsuite/dist/styles/rsuite-default.css";
 import "pokemonRanking-css/Home.css";
 

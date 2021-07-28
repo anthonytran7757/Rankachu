@@ -191,8 +191,6 @@ export function PokemonList(props: PokemonListProps) {
     didYouMeanThis = <div>Sorry, no results could be found</div>;
   }
 
-  const votesLeft = () => {};
-
   return (
     <div id="pokeList">
       <div className="typeDropdown">
